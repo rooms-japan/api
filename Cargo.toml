@@ -1,9 +1,0 @@
-[package]
-name = "api"
-version = "0.1.0"
-authors = ["Tiphaine Viard <tiphaine.viard@gmail.com>"]
-
-[dependencies]
-rocket = "0.3.3"
-rocket_codegen = "0.3.3"
-postgres = "0.14"

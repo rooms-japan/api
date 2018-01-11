@@ -2,15 +2,15 @@ from flask import Flask, jsonify, request, abort
 from flask_cors import CORS
 import psycopg2 as pg
 import sys
-import Chop
 
 app = Flask(__name__)
-cors = CORS(app, ressources={r"/api/*": {"origins" : ["http://localhost:*"]}})
+cors = CORS(app, ressources={r"/api/*": {"origins" : ["http://localhost:*", "http://tiphaineviard.com:*"]}})
+password = open("db_password").readline().strip()
 
 @app.route('/api/info/wards')
 def wards():
     try:
-        conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password="tiphsolange")
+        conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password=password)
         cur = conn.cursor()
     except:
         print("Unable to connect to the database.")
@@ -23,7 +23,7 @@ def wards():
 @app.route('/api/info/columns')
 def columns():
     try:
-        conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password="tiphsolange")
+        conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password=password)
         cur = conn.cursor()
     except:
         print("Unable to connect to the database.")
@@ -37,7 +37,7 @@ def columns():
 @app.route('/api/hello/<xname>/<yname>/<wards>')
 def index(xname, yname, wards):
     try:
-        conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password="tiphsolange")
+        conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password=password)
         cur = conn.cursor()
     except:
         print("Unable to connect to the database.")

@@ -46,8 +46,8 @@ def index(xname, yname, wards):
 
     # Get data
     wardstr = ' or '.join("location like '%"+ i + "%'" for i in ward_list)
-    cur.execute("select " + xname + "," + yname + " from dwellings   where " + wardstr + ";")
-    res = [ { "x": i[0], "y": i[1] } for i in cur.fetchall() ]
+    cur.execute("select " + xname + "," + yname + ", location from dwellings   where " + wardstr + ";")
+    res = [ { "x": i[0], "y": i[1], "ward": [x for x in ward_list if x in i[2]][0]} for i in cur.fetchall() ]
     return jsonify(res)
 
 if __name__ == "__main__":

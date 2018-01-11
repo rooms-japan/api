@@ -34,16 +34,19 @@ def columns():
     return jsonify(d)
 
 
-@app.route('/api/hello/<xname>/<yname>/<ward>')
-def index(xname, yname, ward):
+@app.route('/api/hello/<xname>/<yname>/<wards>')
+def index(xname, yname, wards):
     try:
         conn = pg.connect(dbname="rooms-japan", host="localhost", user="tiphaine", password="tiphsolange")
         cur = conn.cursor()
     except:
         print("Unable to connect to the database.")
+    
+    ward_list = wards.split(",")
 
     # Get data
-    cur.execute("select " + xname + "," + yname + " from dwellings   where location like '%" + ward +"%';")
+    wardstr = ' or '.join("location like '%"+ i + "%'" for i in ward_list)
+    cur.execute("select " + xname + "," + yname + " from dwellings   where " + wardstr + ";")
     res = [ { "x": i[0], "y": i[1] } for i in cur.fetchall() ]
     return jsonify(res)
 
